@@ -133,7 +133,7 @@ public class Generator {
                      "com/wallissoftware/universalanalytics/shared/options/"
                              + toTitleCase(cat.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options.java",
                              generateInterface(cat));
-         }*/
+         }
 
         writeFile("com/wallissoftware/universalanalytics/shared/options/AnalyticsOptions.java",
                 generateBaseClass(categories));
@@ -143,7 +143,10 @@ public class Generator {
                     "com/wallissoftware/universalanalytics/shared/options/"
                             + toTitleCase(cat.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options.java",
                             generateClass(cat));
-        }
+        }*/
+
+        writeFile("com/wallissoftware/universalanalytics/server/options/OptionsCallback.java",
+                generateServerOptionsCallback(categories));
 
     }
 
@@ -304,6 +307,23 @@ public class Generator {
         return template.replace("$javaDoc", javaDoc.toString()).replace("$name", name)
                 .replace("$interfaceInner", inner.toString());
 
+    }
+
+    private String generateServerOptionsCallback(final List<Category> categories) throws IOException {
+        final String template = IOUtils.toString(getClass().getClassLoader().getResource("serveroptions.txt"));
+        final StringBuilder map = new StringBuilder();
+        for (final Category cat : categories) {
+            for (final Field field : cat.fields) {
+                if (field.protocolParameter != null && !field.protocolParameter.isEmpty()) {
+                    map.append("protocolMap.put(\"");
+                    map.append(field.fieldName).append("\", \"");
+                    map.append(field.protocolParameter).append("\");\n");
+                    ;
+
+                }
+            }
+        }
+        return template.replace("$mapValues", map.toString());
     }
 
     private Category getNextCategory() {
