@@ -1,4 +1,4 @@
-package com.wallissoftware.universalanalytics.shared.options.impl;
+package com.wallissoftware.universalanalytics.shared.options;
 
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
@@ -7,15 +7,14 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONNumber;
 import com.wallissoftware.universalanalytics.shared.options.OptionsCallback;
 import com.wallissoftware.universalanalytics.shared.options.AnalyticsOptions;
-$imports
 
-public class ClientAnalyticsOptions implements AnalyticsOptions {
+public class AnalyticsOptions {
 
 	$clazzInner
 	
     private final OptionsCallback<?> optionsCallback;
 	
-	public ClientAnalyticsOptions(final OptionsCallback<?> optionsCallback) {
+	public AnalyticsOptions(final OptionsCallback<?> optionsCallback) {
 	   this.optionsCallback = optionsCallback;
 	}
 
@@ -34,5 +33,12 @@ public class ClientAnalyticsOptions implements AnalyticsOptions {
 	OptionsCallback<?> getOptionsCallback() {
         return optionsCallback;
     }
+    
+    /**
+    * Perform the call
+    **/
+    public void go() {
+    	this.optionsCallback.doCallback();
+    };
 	
 }

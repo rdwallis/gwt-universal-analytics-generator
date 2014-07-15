@@ -125,22 +125,22 @@ public class Generator {
             nextCategory = getNextCategory();
         }
 
+        /* writeFile("com/wallissoftware/universalanalytics/shared/options/AnalyticsOptions.java",
+                 generateBaseInterface(categories));
+
+         for (final Category cat : categories) {
+             writeFile(
+                     "com/wallissoftware/universalanalytics/shared/options/"
+                             + toTitleCase(cat.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options.java",
+                             generateInterface(cat));
+         }*/
+
         writeFile("com/wallissoftware/universalanalytics/shared/options/AnalyticsOptions.java",
-                generateBaseInterface(categories));
-
-        for (final Category cat : categories) {
-            writeFile(
-                    "com/wallissoftware/universalanalytics/shared/options/"
-                            + toTitleCase(cat.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options.java",
-                            generateInterface(cat));
-        }
-
-        writeFile("com/wallissoftware/universalanalytics/client/options/ClientAnalyticsOptions.java",
                 generateBaseClass(categories));
 
         for (final Category cat : categories) {
             writeFile(
-                    "com/wallissoftware/universalanalytics/client/options/Client"
+                    "com/wallissoftware/universalanalytics/shared/options/"
                             + toTitleCase(cat.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options.java",
                             generateClass(cat));
         }
@@ -150,18 +150,16 @@ public class Generator {
     private String generateBaseClass(final List<Category> categories) throws IOException {
         final String template = IOUtils.toString(getClass().getClassLoader().getResource("baseclazz.txt"));
         final StringBuilder inner = new StringBuilder();
-        final StringBuilder imports = new StringBuilder();
+        //final StringBuilder imports = new StringBuilder();
         for (final Category cat : categories) {
-            imports.append("import com.wallissoftware.universalanalytics.shared.options.").append(toTitleCase(cat.id))
-            .append("Options;\n");
+            //imports.append("import com.wallissoftware.universalanalytics.shared.options.").append(toTitleCase(cat.id)).append("Options;\n");
             inner.append("public ").append(toTitleCase(cat.id)).append("Options ");
             inner.append(cat.id).append("Options");
             inner.append("() {\n");
-            inner.append("return new Client").append(toTitleCase(cat.id)).append("Options(getOptionsCallback());\n");
+            inner.append("return new ").append(toTitleCase(cat.id)).append("Options(getOptionsCallback());\n");
             inner.append("}\n\n");
         }
-        return template.replace("$clazzInner", inner.toString()).replace("$imports", imports.toString())
-                .replace("nhanced-ecomm", "nhancedEcommerce");
+        return template.replace("$clazzInner", inner.toString()).replace("nhanced-ecomm", "nhancedEcommerce");
 
     }
 
@@ -194,7 +192,7 @@ public class Generator {
             javaDoc.append("**/\n");
         }
         final String iface = toTitleCase(category.id).replace("Enhanced-ecomm", "EnhancedEcommerce") + "Options";
-        final String name = "Client" + toCamelCase(category.id).replace("Enhanced-ecomm", "EnhancedEcommerce")
+        final String name = toCamelCase(category.id).replace("Enhanced-ecomm", "EnhancedEcommerce")
                 + "Options";
 
         final StringBuilder inner = new StringBuilder();
