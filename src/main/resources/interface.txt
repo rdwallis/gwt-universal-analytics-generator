@@ -1,0 +1,8 @@
+package com.wallissoftware.universalanalytics.shared.options;
+
+$javaDoc
+public interface $name extends AnalyticsOptions {
+
+	$interfaceInner
+
+}

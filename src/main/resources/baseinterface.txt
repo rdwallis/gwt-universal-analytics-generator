@@ -1,0 +1,7 @@
+package com.wallissoftware.universalanalytics.shared.options;
+
+public interface AnalyticsOptions {
+
+	$interfaceInner
+
+}
